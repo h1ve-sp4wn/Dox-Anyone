@@ -1,0 +1,20 @@
+# Use an official Python runtime as a base image
+FROM python:3.8-slim
+
+# Set the working directory
+WORKDIR /usr/src/app
+
+# Install system dependencies (same as those in the script)
+RUN apt-get update && apt-get install -y \
+    net-tools dnsutils sslscan fierce \
+    network-manager resolvconf dnsmasq \
+    ssh iptables curl bleachbit privoxy tor \
+    macchanger finalrecon theharvester dnsenum \
+    dnsrecon wpscan nmap whatweb metagoofil \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy the Python script into the container
+COPY scanner.py .
+
+# Run the Python script
+CMD ["python3", "dox_anyone.py"]
